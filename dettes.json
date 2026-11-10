@@ -1,0 +1,33 @@
+{
+ "note": "Écarts connus au 10/11/2026, tolérés jusqu'à correction (option B). Toute nouvelle erreur bloque la publication.",
+ "dettes": [
+  "m1.e2|exercice de méthode sans exemple résolu",
+  "m1.e4|exercice de méthode sans exemple résolu",
+  "m1.l0|forme processus sans visuel adapté (trajet)",
+  "m1.l4|forme aspect sans visuel adapté (carte)",
+  "m2.e3|exercice de méthode sans exemple résolu",
+  "m2.l5|forme aspect sans visuel adapté (carte)",
+  "m2.l6|forme processus sans visuel adapté (trajet)",
+  "m3.l4|forme processus sans visuel adapté (trajet)",
+  "m3.l5|forme aspect sans visuel adapté (carte)",
+  "m4.e2|exercice de méthode sans exemple résolu",
+  "m4.e4|exercice de méthode sans exemple résolu",
+  "m4.l1|forme aspect sans visuel adapté (carte)",
+  "m4.l2|forme aspect sans visuel adapté (carte)",
+  "m4.l2|forme processus sans visuel adapté (trajet)",
+  "m4.l4|forme aspect sans visuel adapté (carte)",
+  "m5.e1|exercice de méthode sans exemple résolu",
+  "m5.l3|sigle IP non développé",
+  "m5.l6|forme processus sans visuel adapté (trajet)",
+  "m6.l3|forme processus sans visuel adapté (trajet)",
+  "m6.l4|forme processus sans visuel adapté (trajet)",
+  "m6.l4|forme structure sans visuel adapté (table/trajet)",
+  "m7.l1|forme processus sans visuel adapté (trajet)",
+  "m7.l2|forme aspect sans visuel adapté (carte)",
+  "m7.l4|forme aspect sans visuel adapté (carte)",
+  "m7.l5|forme aspect sans visuel adapté (carte)",
+  "m7.l6|forme processus sans visuel adapté (trajet)",
+  "term.e6|exercice de méthode sans exemple résolu",
+  "term.l1|chiffres en série dans un paragraphe (bloc 7)"
+ ]
+}

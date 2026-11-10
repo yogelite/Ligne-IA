@@ -1,6 +1,7 @@
 # Construit la PWA Ligne IA (l1) depuis app.html : index.html, contenu.json, sw.js. Usage : python3 build_pwa.py <dossier_cible> <numero_cache>
 import re,sys,json,subprocess
 dst,ver=sys.argv[1],sys.argv[2]
+if subprocess.run(['python3','check_l1.py']).returncode: sys.exit('Publication refusée : corriger les nouveaux écarts (check_l1.py).')
 body=open('app.html',encoding='utf8').read()
 head=re.match(r'(<title>.*?</title>\s*<meta[^>]*>\s*<link[^>]*>\s*<link[^>]*>)',body,re.S).group(1)
 rest=body[len(head):]
