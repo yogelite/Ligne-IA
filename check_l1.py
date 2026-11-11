@@ -36,6 +36,15 @@ for m in ORDER:
         for sg in SIG:
             mm=re.search(r'(?<![\w-])'+re.escape(sg)+r'(?![\w-])',flat)
             if mm and not re.match(r'\s*\(',flat[mm.end():]) and not re.search(re.escape(sg)+r'\s*\(',flat) and not re.search(r'\(\s*'+re.escape(sg)+r'\s*[)\s]',flat): err.append((lid,f'sigle {sg} non développé'))
+    norm=lambda t:re.sub(r'\s+',' ',re.sub(r'[«»"’\'.,;:!?()]',' ',t.lower())).strip()
+    for qkey in ('quiz','quizl'):
+        if m=='term' and qkey=='quiz': continue  # QCM d'examen blanc façon AB-730 : distinct des leçons
+        lids={l['id']:l for l in C[m]['lessons']}
+        for qi,q in enumerate(C[m].get(qkey,[])):
+            qid=f'{m}.{qkey}{qi+1}'
+            if q.get('lecon') not in lids: err.append((qid,'question rattachée à aucune leçon')); continue
+            bonne=norm(q['o'][q['a']]); flat_l=norm(' '.join(txt(b) for b in lids[q['lecon']]['blocks']))
+            if len(bonne)>=25 and bonne in flat_l: err.append((qid,'bonne réponse recopiée mot pour mot de la leçon'))
     for e in C[m]['exercises']:
         eid=f'{m}.{e["id"]}'; here=max([pos[f'{m}.{l["id"]}'] for l in C[m]['lessons']] or [0])
         if 'notions' not in e: err.append((eid,'notions non déclarées')); continue
