@@ -1,4 +1,4 @@
-const PREFIXE="ligne-ia-v",C=PREFIXE+"9";const CORE=["./","index.html","manifest.json","contenu.json","icon-192.png","icon-512.png"];
+const PREFIXE="ligne-ia-v",C=PREFIXE+"10";const CORE=["./","index.html","manifest.json","contenu.json","icon-192.png","icon-512.png"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(CORE)));self.skipWaiting();});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith(PREFIXE)&&k!==C).map(k=>caches.delete(k)))));self.clients.claim();});
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;

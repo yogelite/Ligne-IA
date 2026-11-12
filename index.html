@@ -173,7 +173,7 @@ MODULES.forEach(m=>{ if(!m.ready) return; m.lessons.forEach(l=>l.blocks.forEach(
 
 
 /* ===================== ÉTAT ===================== */
-const APP="l1", APP_VERSION="1.6.2", SCHEMA=1;
+const APP="l1", APP_VERSION="1.6.3", APP_DATE="12/11/2026", SCHEMA=1;
 const KEY="ligne-ia.v1";
 const blank=()=>({voie:"both",done:{},quiz:{},ex:{},kit:[]});
 let S=blank();
@@ -216,7 +216,7 @@ function vHome(){
   const firstOpen=MODULES.find(m=>m.ready&&modStats(m).done<modStats(m).total);
   return `
   <header class="stack">
-    <p class="eyebrow">Formation IA générative · usage personnel</p>
+    <p class="eyebrow">Formation IA générative · usage personnel · <span class="mono" style="text-transform:none">v${APP_VERSION}</span></p>
     <h1>Ligne IA</h1>
     <p class="muted">Sept gares et un terminus, deux voies. La voie Pro travaille dans Microsoft 365 avec des données fictives, la voie Perso dans vos propres outils. Formation personnelle, non certifiante.</p>
     ${voieSeg()}
@@ -355,8 +355,9 @@ function vSave(){
   return `<header class="stack"><span class="eyebrow">Sauvegarde</span><h1>Votre progression</h1>
   <p class="muted">Tout est stocké sur cet appareil uniquement. Téléchargez une sauvegarde de temps en temps : vider le navigateur ou changer de téléphone efface tout.</p></header>
   <div class="card"><strong>Télécharger une sauvegarde</strong><p class="muted">Fichier .json avec leçons, quiz, exercices et kit.</p><button type="button" class="primary" data-export="json">Télécharger</button></div>
-  <div class="card"><label for="imp"><strong>Restaurer une sauvegarde</strong></label><p class="muted">Remplace la progression actuelle de cet appareil.</p><input type="file" id="imp" accept="application/json,.json">
+  <div class="card"><label for="imp"><strong>Restaurer une sauvegarde</strong></label><p class="muted">Vous choisirez ensuite : fusionner avec la progression de cet appareil, ou la remplacer.</p><input type="file" id="imp" accept="application/json,.json">
     <div id="impconfirm"></div></div>
+  <div class="card"><strong>Version installée</strong><p><span class="mono">Ligne IA ${APP_VERSION}</span> · publiée le ${APP_DATE}</p><p class="muted">Après une mise à jour, ouvrez l'app avec une connexion, fermez-la complètement, puis rouvrez-la : ce numéro doit changer.</p></div>
   <div class="card"><strong>Tout effacer</strong><p class="muted">Repart de zéro sur cet appareil.</p><div id="resetwrap"><button type="button" class="danger" data-reset>Effacer ma progression</button></div></div>`;
 }
 
@@ -432,10 +433,11 @@ app.addEventListener("change",ev=>{
     const box=document.getElementById("impconfirm");
     if(!data||typeof data!=="object"){box.innerHTML='<p class="err">Ce fichier n\'est pas une sauvegarde lisible.</p>';return;}
     if(data.app&&data.app!==APP){box.innerHTML=`<p class="err">Ce fichier vient d'une autre formation (${esc(data.app)}). Importez-le dans l'app correspondante.</p>`;return;}
+    window.__impv=data.appVersion||"";
     if(data.app===APP){ if(data.schemaVersion>SCHEMA){box.innerHTML='<p class="err">Sauvegarde créée par une version plus récente de Ligne IA. Mettez l\'app à jour puis réessayez.</p>';return;} data=Object.assign({},data.progress||{},{kit:data.kit||[]}); }
     else if(!data.done){box.innerHTML='<p class="err">Ce fichier n\'est pas une sauvegarde Ligne IA.</p>';return;}
     window.__imp=data;
-    document.getElementById("impconfirm").innerHTML=`<p>Sauvegarde trouvée : ${Object.keys(data.done).length} leçons, ${(data.kit||[]).length} éléments de kit. Que faire de la progression de cet appareil ?</p><p class="muted">Fusionner garde le meilleur des deux appareils : leçons lues et exercices faits de part et d'autre, meilleur score de chaque quiz, kit réuni sans doublon. Remplacer efface la progression de cet appareil.</p><div class="row"><button type="button" class="primary" data-impmerge>Fusionner</button><button type="button" data-impok>Remplacer</button><button type="button" data-impno>Annuler</button></div>`;
+    document.getElementById("impconfirm").innerHTML=`<p>Sauvegarde trouvée${window.__impv?` (version ${esc(window.__impv)})`:""} : ${Object.keys(data.done).length} leçons, ${(data.kit||[]).length} éléments de kit. Que faire de la progression de cet appareil ?</p><p class="muted">Fusionner garde le meilleur des deux appareils : leçons lues et exercices faits de part et d'autre, meilleur score de chaque quiz, kit réuni sans doublon. Remplacer efface la progression de cet appareil.</p><div class="row"><button type="button" class="primary" data-impmerge>Fusionner</button><button type="button" data-impok>Remplacer</button><button type="button" data-impno>Annuler</button></div>`;
   };r.readAsText(t.files[0]);}
 });
 app.addEventListener("submit",ev=>{
